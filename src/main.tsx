@@ -1,32 +1,38 @@
-import './main.css';
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import { App } from './app';
-import { Route, Router, RootRoute, NotFoundRoute, RouterProvider } from '@tanstack/react-router';
+import "./main.css";
+import React from "react";
+import ReactDOM from "react-dom/client";
+import { App } from "./app";
+import {
+  Route,
+  Router,
+  RootRoute,
+  NotFoundRoute,
+  RouterProvider,
+} from "@tanstack/react-router";
 
-import { Index } from './pages';
-import { NotFound } from './pages/not-found';
-import { CreateArticle } from './pages/articles/create';
-import { SearchArticles } from './pages/articles/search';
+import { Index } from "./pages";
+import { NotFound } from "./pages/not-found";
+import { CreateArticle } from "./pages/articles/create";
+import { SearchArticles } from "./pages/articles/search";
 
 //  create the root route
 const rootRoute = new RootRoute();
 
 // create other routes
 const indexRoute = new Route({
-  path: '/',
+  path: "/",
   component: Index,
   getParentRoute: () => rootRoute,
 });
 
 const createArticleRoute = new Route({
-  path: 'articles/create',
+  path: "articles/create",
   component: CreateArticle,
   getParentRoute: () => rootRoute,
 });
 
 const searchArticleRoute = new Route({
-  path: 'articles/search',
+  path: "articles/search",
   component: SearchArticles,
   getParentRoute: () => rootRoute,
 });
@@ -37,34 +43,25 @@ const notFoundRoute = new NotFoundRoute({
 });
 
 //  build the route tree
-const routeTree = rootRoute.addChildren([indexRoute, notFoundRoute, createArticleRoute, searchArticleRoute]);
+const routeTree = rootRoute.addChildren([
+  indexRoute,
+  notFoundRoute,
+  createArticleRoute,
+  searchArticleRoute,
+]);
 
 const router = new Router({
   routeTree,
-  defaultPendingComponent: () => {
-    return (
-      <div>
-        <h1>Loading...</h1>
-      </div>
-    );
-  },
-  defaultErrorComponent: () => {
-    return (
-      <div>
-        <h1>Error</h1>
-      </div>
-    );
-  },
 });
 
 //  register route types
-declare module '@tanstack/react-router' {
+declare module "@tanstack/react-router" {
   interface Register {
     router: typeof router;
   }
 }
 
-ReactDOM.createRoot(document.getElementById('root')!).render(
+ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <App>
       <RouterProvider router={router} />
